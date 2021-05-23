@@ -95,7 +95,7 @@ type AnnotatedStep a = (Out, a, In, Cmd)
 newtype AnnotatedSyntax a = AnnotatedSyntax
   { runAnnotatedSyntax :: [AnnotatedStep a]
   }
-  deriving (Show, Eq, Functor, Monoid)
+  deriving (Show, Eq, Functor, Semigroup, Monoid)
 
 annotateUnifiedSyntax :: UnifiedSyntax -> AnnotatedSyntax ()
 annotateUnifiedSyntax = AnnotatedSyntax . map f

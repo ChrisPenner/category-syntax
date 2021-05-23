@@ -10,7 +10,7 @@ import Control.Category.Syntax.Types
 
 parseVarsE :: Exp -> Vars
 parseVarsE (VarE x) = Var x
-parseVarsE (TupE [x,y]) = Pair (parseVarsE x) (parseVarsE y)
+parseVarsE (TupE [Just x,Just y]) = Pair (parseVarsE x) (parseVarsE y)
 parseVarsE x = error msg
   where
     msg = printf "expected a var or a tuple of vars, got %s" (pprint x)

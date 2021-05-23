@@ -27,15 +27,17 @@ prettyInterList (InterList x0 sxs)
     show1 (s, x) = printf "{%s} %s" (show s) (show x)
 
 
-instance Monoid a => Monoid (InterList s a) where
-    mempty = InterList mempty []
-    InterList x1 [] `mappend` InterList x2 sxs2
-      = InterList (x1 `mappend` x2) sxs2
-    InterList x1 (sx1:sxs1) `mappend` InterList x2 sxs2
+instance Semigroup a => Semigroup (InterList s a) where
+    InterList x1 [] <> InterList x2 sxs2
+      = InterList (x1 <> x2) sxs2
+    InterList x1 (sx1:sxs1) <> InterList x2 sxs2
       = InterList x1 (sxs1' ++ [(sx', x')] ++ sxs2)
       where
         (sxs1', (sx', x1')) = scanlAccum (,) sx1 sxs1
-        x' = x1' `mappend` x2
+        x' = x1' <> x2
+
+instance Monoid a => Monoid (InterList s a) where
+    mempty = InterList mempty []
 
 instance Monad (InterList s) where
     return x = InterList x []
